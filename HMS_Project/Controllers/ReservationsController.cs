@@ -66,7 +66,10 @@ namespace HMS_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+                if (request.To < request.From)
+                {
+                    return BadRequest("To date must be before to");
+                }
                 var result = await _hotelBookingRequestProcessor.BookHotelRoom(request);
                 if (result.ReserveStatus == 1)
                 {

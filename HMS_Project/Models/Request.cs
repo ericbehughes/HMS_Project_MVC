@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HMS_Project.Models.CustomAttributes;
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,8 +15,12 @@ namespace HMS_Project.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         [DataType(DataType.Date)]
+        [DateWithoutTime]
+        [DateInFuture]
         public DateTime From { get; set; }
         [DataType(DataType.Date)]
+        [DateInFuture]
+        [DateWithoutTime]
         public DateTime To { get; set; }
         public int NumberOfPeople { get; set; }
         public bool IsActive { get; set; }
