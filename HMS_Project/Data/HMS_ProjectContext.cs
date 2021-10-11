@@ -14,6 +14,11 @@ namespace HMS_Project.Data
         {
         }
 
-        public DbSet<HMS_Project.Models.Movie> Movie { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+
+        public DbSet<Room> Rooms { get; set; }
+
+        public DbSet<HMS_Project.Models.Request> Request { get; set; }
+
     }
 }

@@ -13,11 +13,15 @@ namespace HMS_Project.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        /*
-         * TO COMPLETE 
-         */
-
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime From { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime To { get; set; }
+        public int NumberOfPeople { get; set; }
+        public bool IsActive { get; set; }
+        [DataType(DataType.Date)]
         public DateTime ReservDate { get; set; }
         public int ReservStatus { get; set; }
 

@@ -10,22 +10,22 @@ using HMS_Project.Models;
 
 namespace HMS_Project.Controllers
 {
-    public class MoviesController : Controller
+    public class RequestsController : Controller
     {
         private readonly HMS_ProjectContext _context;
 
-        public MoviesController(HMS_ProjectContext context)
+        public RequestsController(HMS_ProjectContext context)
         {
             _context = context;
         }
 
-        // GET: Movies
+        // GET: Requests
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Movie.ToListAsync());
+            return View(await _context.Request.ToListAsync());
         }
 
-        // GET: Movies/Details/5
+        // GET: Requests/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace HMS_Project.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movie
+            var request = await _context.Request
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null)
+            if (request == null)
             {
                 return NotFound();
             }
 
-            return View(movie);
+            return View(request);
         }
 
-        // GET: Movies/Create
+        // GET: Requests/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Movies/Create
+        // POST: Requests/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,From,To,NumberOfPeople,IsActive")] Request request)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(movie);
+                _context.Add(request);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(movie);
+            return View(request);
         }
 
-        // GET: Movies/Edit/5
+        // GET: Requests/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace HMS_Project.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movie.FindAsync(id);
-            if (movie == null)
+            var request = await _context.Request.FindAsync(id);
+            if (request == null)
             {
                 return NotFound();
             }
-            return View(movie);
+            return View(request);
         }
 
-        // POST: Movies/Edit/5
+        // POST: Requests/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,From,To,NumberOfPeople,IsActive")] Request request)
         {
-            if (id != movie.Id)
+            if (id != request.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace HMS_Project.Controllers
             {
                 try
                 {
-                    _context.Update(movie);
+                    _context.Update(request);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MovieExists(movie.Id))
+                    if (!RequestExists(request.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace HMS_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(movie);
+            return View(request);
         }
 
-        // GET: Movies/Delete/5
+        // GET: Requests/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace HMS_Project.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movie
+            var request = await _context.Request
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null)
+            if (request == null)
             {
                 return NotFound();
             }
 
-            return View(movie);
+            return View(request);
         }
 
-        // POST: Movies/Delete/5
+        // POST: Requests/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var movie = await _context.Movie.FindAsync(id);
-            _context.Movie.Remove(movie);
+            var request = await _context.Request.FindAsync(id);
+            _context.Request.Remove(request);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MovieExists(int id)
+        private bool RequestExists(int id)
         {
-            return _context.Movie.Any(e => e.Id == id);
+            return _context.Request.Any(e => e.Id == id);
         }
     }
 }

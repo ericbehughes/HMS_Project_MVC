@@ -19,42 +19,24 @@ namespace HMS_Project.Models
                     DbContextOptions<HMS_ProjectContext>>()))
             {
                 // Look for any movies.
-                if (context.Movie.Any())
+                if (context.Rooms.Any())
                 {
                     return;   // DB has been seeded
                 }
 
-                context.Movie.AddRange(
-                    new Movie
+                context.Rooms.AddRange(
+                    new Room
                     {
-                        Title = "When Harry Met Sally",
-                        ReleaseDate = DateTime.Parse("1989-2-12"),
-                        Genre = "Romantic Comedy",
-                        Price = 7.99M
+                        Capacity = 2,
+                        IsActive = false,
+                        Number = "111"
                     },
 
-                    new Movie
+                    new Room
                     {
-                        Title = "Ghostbusters ",
-                        ReleaseDate = DateTime.Parse("1984-3-13"),
-                        Genre = "Comedy",
-                        Price = 8.99M
-                    },
-
-                    new Movie
-                    {
-                        Title = "Ghostbusters 2",
-                        ReleaseDate = DateTime.Parse("1986-2-23"),
-                        Genre = "Comedy",
-                        Price = 9.99M
-                    },
-
-                    new Movie
-                    {
-                        Title = "Rio Bravo",
-                        ReleaseDate = DateTime.Parse("1959-4-15"),
-                        Genre = "Western",
-                        Price = 3.99M
+                        Capacity = 3,
+                        IsActive = false,
+                        Number = "222"
                     }
                 );
                 context.SaveChanges();
