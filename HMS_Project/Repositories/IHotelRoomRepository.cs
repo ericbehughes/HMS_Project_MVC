@@ -10,7 +10,8 @@ namespace HMS_Project.Repositories
 {
     public interface IHotelRoomRepository
     {
-        IEnumerable<Room> GetAvailableRooms(DateTime from, DateTime to, int capacity);
-        IEnumerable<Room> GetAll();
+        Task<IEnumerable<Room>> GetAvailableRooms(DateTime from, DateTime to, int capacity);
+        Task<IEnumerable<Room>> GetAvailableRoomsFor(int days);
+        Task<IEnumerable<Room>> GetAll();
     }
 }

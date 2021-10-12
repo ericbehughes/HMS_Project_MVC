@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HMS_Project.Data;
 using HMS_Project.Models;
 using HMS_Project.Services;
+using HMS_Project.Repositories;
 
 namespace HMS_Project.Controllers
 {
@@ -15,18 +16,24 @@ namespace HMS_Project.Controllers
     {
         private readonly HMS_ProjectContext _context;
         private readonly IHotelBookingRequestProcessor _hotelBookingRequestProcessor;
+        private readonly IHotelBookingRepository _hotelBookingRepository;
 
-        public ReservationsController(HMS_ProjectContext context, IHotelBookingRequestProcessor hotelBookingRequestProcessor)
+        public ReservationsController(HMS_ProjectContext context, IHotelBookingRequestProcessor hotelBookingRequestProcessor, IHotelBookingRepository hotelBookingRepository)
         {
             _context = context;
             _hotelBookingRequestProcessor = hotelBookingRequestProcessor;
+            _hotelBookingRepository = hotelBookingRepository;
         }
 
         // GET: Reservations
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string days)
         {
-            var hMS_ProjectContext = _context.Reservations.Include(r => r.Request).Include(r => r.Room);
-            return View(await hMS_ProjectContext.ToListAsync());
+            int lookAheadDays;
+            if (string.IsNullOrWhiteSpace(days) || !int.TryParse(days, out lookAheadDays))
+                return View(await _hotelBookingRepository.GetAll());
+            
+            var reservations = await _hotelBookingRepository.GetReservationsFor(lookAheadDays);
+            return View(reservations);
         }
 
         // GET: Reservations/Details/5
@@ -139,9 +146,7 @@ namespace HMS_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RequestId"] = new SelectList(_context.Set<Request>(), "Id", "Id", reservation.RequestId);
-            ViewData["RoomId"] = new SelectList(_context.Set<Room>(), "Id", "Id", reservation.RoomId);
-            return View(reservation);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Reservations/Delete/5

@@ -1,6 +1,8 @@
 ﻿using HMS_Project.Data;
 using HMS_Project.Models;
 
+using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,37 +20,33 @@ namespace HMS_Project.Repositories
             _context = context;
         }
 
-        public IEnumerable<Room> GetAll()
+        public async Task<IEnumerable<Room>> GetAll()
         {
-            //return _context.Rooms.ToList();
-            return null;
+            return await _context.Rooms.ToListAsync();
         }
 
-        public IEnumerable<Room> GetAvailableRooms(DateTime from, DateTime to, int capacity)
+        public async Task<IEnumerable<Room>> GetAvailableRooms(DateTime from, DateTime to, int capacity)
         {
-            var bookedHotelBookings = _context.Reservations.
-              Where(x => x.IsActive == false && x.To > to)
-              .Select(b => b.RoomId)
-              .ToList();
-
-            return _context.Rooms
-              .Where(x => !bookedHotelBookings.Contains(x.Id))
-              .Where(o => o.Capacity <= capacity)
-              .ToList();
+            return await GetAvailableRoomsFor(0);
         }
+
 
         //- One(1) SQL query to list every empty room for the next 15 days.
-        public IEnumerable<Room> GetAvailableRoomsFor(int days)
+        public async Task<IEnumerable<Room>> GetAvailableRoomsFor(int days)
         {
-            return null;
-            //var bookedHotelBookings = _context.HotelBookings.
-            //  Where(x => x.IsActive == false && x.From == DateTime.Today && x.To < DateTime.Today.AddDays(days))
-            //  .Select(b => b.RoomId)
-            //  .ToList();
+            var bookedRoomIDs = await _context
+                .Reservations
+                .Include(r => r.Room)
+                .Where(o => o.IsActive == true)
+                .Where(o => o.From >= DateTime.Today && o.To <= DateTime.Today.AddDays(days))
+                .Select(o => o.RoomId)
+                .ToListAsync();
 
-            //return _context.Rooms
-            //  .Where(x => !bookedHotelBookings.Contains(x.Id))
-            //  .ToList();
+            var emptyRooms = await _context.Rooms
+                .Where(o => !bookedRoomIDs.Contains(o.Id))
+                .ToListAsync();
+
+            return emptyRooms;
         }
     }
 }

@@ -12,6 +12,7 @@ namespace HMS_Project.Repositories
     {
         Task SaveRequest(Request request);
         Task SaveReservation(Reservation hotelBooking);
-        IEnumerable<Reservation> GetAll();
+        Task<IEnumerable<Reservation>> GetAll();
+        Task<IEnumerable<Reservation>> GetReservationsFor(int lookAheadDays);
     }
 }

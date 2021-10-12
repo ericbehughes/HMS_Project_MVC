@@ -13,6 +13,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="RequestId" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -38,28 +39,12 @@
                 <input asp-for="NumberOfPeople" class="form-control" />
                 <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
             <div class="form-group">
                 <label asp-for="ReservDate" class="control-label"></label>
-                <input asp-for="ReservDate" class="form-control" />
                 <span asp-validation-for="ReservDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ReservStatus" class="control-label"></label>
-                <input asp-for="ReservStatus" class="form-control" />
-                <span asp-validation-for="ReservStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RequestId" class="control-label"></label>
-                <select asp-for="RequestId" class="form-control" asp-items="ViewBag.RequestId"></select>
-                <span asp-validation-for="RequestId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RoomId" class="control-label"></label>
+                <label asp-for="RoomId" class="control-label">ViewBag.RoomId</label>
                 <select asp-for="RoomId" class="form-control" asp-items="ViewBag.RoomId"></select>
                 <span asp-validation-for="RoomId" class="text-danger"></span>
             </div>

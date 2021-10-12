@@ -9,6 +9,12 @@
 <p>
     <a asp-action="Create">Create A New Reservation</a>
 </p>
+<form asp-controller="Reservations" asp-action="Index">
+    <p>
+        List how many reservations per day for the next : <input type="text" placeholder="days" name="days" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -28,16 +34,10 @@
                 @Html.DisplayNameFor(model => model.NumberOfPeople)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.ReservDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ReservStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Request)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Room)
@@ -46,7 +46,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach(var group in Model.GroupBy(o => o.ReservDate))
+        @foreach (var item in group) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
@@ -64,23 +65,17 @@
                 @Html.DisplayFor(modelItem => item.NumberOfPeople)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.ReservDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ReservStatus)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Request.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Room.Id)
+                @Html.DisplayFor(modelItem => item.Room.Number)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>|
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

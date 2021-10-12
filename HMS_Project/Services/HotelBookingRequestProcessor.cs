@@ -24,7 +24,7 @@ namespace HMS_Project.Services
                 throw new ArgumentNullException(nameof(hotelRequest));
 
             await _hotelBookingRepository.SaveRequest(hotelRequest);
-            var availableRooms = _hotelRoomRepository.GetAvailableRooms(hotelRequest.From, hotelRequest.To, hotelRequest.NumberOfPeople);
+            var availableRooms = await _hotelRoomRepository.GetAvailableRooms(hotelRequest.From, hotelRequest.To, hotelRequest.NumberOfPeople);
 
             var hotelBookingResult = new RequestResult();
 
