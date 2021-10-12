@@ -27,7 +27,8 @@ namespace HMS_Project.Repositories
 
         public async Task<IEnumerable<Room>> GetAvailableRooms(DateTime from, DateTime to, int capacity)
         {
-            return await GetAvailableRoomsFor(0);
+            var emptyRooms = await GetAvailableRoomsFor(0);
+            return emptyRooms.Where(o => capacity <= o.Capacity);
         }
 
 

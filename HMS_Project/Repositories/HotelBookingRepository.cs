@@ -51,7 +51,8 @@ namespace HMS_Project.Repositories
                .Include(r => r.Request)
                .Include(r => r.Room)
                .Where(o => o.IsActive == true)
-               .OrderBy(x => x.From).ToListAsync();
+               .OrderBy(x => x.From)
+               .ToListAsync();
         }
     }
 }

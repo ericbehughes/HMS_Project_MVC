@@ -37,7 +37,39 @@ namespace HMS_Project.Models
                         Capacity = 3,
                         IsActive = false,
                         Number = "222"
+                    },
+                    new Room
+                    {
+                        Capacity = 4,
+                        IsActive = false,
+                        Number = "444"
+                    },
+                    new Room
+                    {
+                        Capacity = 5,
+                        IsActive = false,
+                        Number = "555"
+                    },
+                    new Room
+                    {
+                        Capacity = 6,
+                        IsActive = false,
+                        Number = "666"
+                    },
+                    new Room
+                    {
+                        Capacity = 7,
+                        IsActive = false,
+                        Number = "777
+                    },
+                    new Room
+                    {
+                        Capacity = 8,
+                        IsActive = false,
+                        Number = "888
                     }
+
+
                 );
                 context.SaveChanges();
             }

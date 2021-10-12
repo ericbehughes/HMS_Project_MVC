@@ -73,10 +73,6 @@ namespace HMS_Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (request.To < request.From)
-                {
-                    return BadRequest("To date must be before to");
-                }
                 var result = await _hotelBookingRequestProcessor.BookHotelRoom(request);
                 if (result.ReserveStatus == 1)
                 {
@@ -86,9 +82,12 @@ namespace HMS_Project.Controllers
                 }
                 else if (result.ReserveStatus == 0)
                 {
-                    ModelState.AddModelError("DeskBookingRequest.Date",
-                      "No desk available for selected date");
-                    return RedirectToAction(nameof(Index));
+                    ModelState.AddModelError("Request.To",
+                      "No hotel room available for selected date");
+                    return View("Error", new ErrorViewModel()
+                    {
+                        RequestId = result.RequestId.ToString()
+                    });
                 }
                 
             }

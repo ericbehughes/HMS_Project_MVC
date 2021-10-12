@@ -23,6 +23,11 @@ namespace HMS_Project.Services
             if (hotelRequest == null)
                 throw new ArgumentNullException(nameof(hotelRequest));
 
+            if (hotelRequest.To <= hotelRequest.From)
+            {
+                throw new InvalidOperationException(nameof(hotelRequest));
+            }
+
             await _hotelBookingRepository.SaveRequest(hotelRequest);
             var availableRooms = await _hotelRoomRepository.GetAvailableRooms(hotelRequest.From, hotelRequest.To, hotelRequest.NumberOfPeople);
 
@@ -45,23 +50,15 @@ namespace HMS_Project.Services
                     RequestId = hotelRequest.Id
                 };
                 await _hotelBookingRepository.SaveReservation(reservation);
-                // map values to request if successfull
-                hotelBookingResult.Id = hotelRequest.Id;
-                hotelBookingResult.FirstName = hotelRequest.FirstName;
-                hotelBookingResult.LastName = hotelRequest.LastName;
-                hotelBookingResult.From = hotelRequest.From;
-                hotelBookingResult.To = hotelRequest.To;
-                hotelBookingResult.IsActive = true;
-                hotelBookingResult.NumberOfPeople = hotelRequest.NumberOfPeople;
-                hotelBookingResult.RoomId = firstAvailableRoom.Id;
                 hotelBookingResult.ReserveStatus = 1;
-                // needs to be generated from the DB
+                hotelBookingResult.RequestId = hotelRequest.Id;
                 hotelBookingResult.HotelBookingId = reservation.Id;
             }
             else
             {
                 // assign reserve status to 0 if no save is done
                 hotelBookingResult.ReserveStatus = 0;
+                hotelBookingResult.RequestId = hotelRequest.Id;
             }
             return hotelBookingResult;
             
