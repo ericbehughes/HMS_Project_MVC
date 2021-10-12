@@ -157,7 +157,6 @@ namespace HMS_Project.Controllers
             }
 
             var reservation = await _context.Reservations
-                .Include(r => r.Request)
                 .Include(r => r.Room)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (reservation == null)
@@ -173,8 +172,14 @@ namespace HMS_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reservation = await _context.Reservations.FindAsync(id);
+            var reservation = await _context.Reservations
+                .Include(r => r.Request)
+                .Include(r => r.Room)
+                .FirstOrDefaultAsync(m => m.Id == id);
             _context.Reservations.Remove(reservation);
+            var room = reservation.Room;
+            room.IsActive = false;
+            _context.Rooms.Update(room);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

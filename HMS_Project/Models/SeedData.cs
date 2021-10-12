@@ -60,13 +60,13 @@ namespace HMS_Project.Models
                     {
                         Capacity = 7,
                         IsActive = false,
-                        Number = "777
+                        Number = "777"
                     },
                     new Room
                     {
                         Capacity = 8,
                         IsActive = false,
-                        Number = "888
+                        Number = "888"
                     }
 
 

@@ -42,6 +42,9 @@ namespace HMS_Project.Repositories
         public async Task SaveReservation(Reservation Reservation)
         {
             _context.Reservations.Add(Reservation);
+            var room = Reservation.Room;
+            room.IsActive = true;
+            _context.Rooms.Update(room);
             await _context.SaveChangesAsync();
         }
 
